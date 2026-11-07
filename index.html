@@ -214,6 +214,40 @@ button.fecha::after { content: " \25BE"; }
 .wc { appearance: none; border: 0; background: var(--bg-2); color: var(--muted); font: inherit; font-weight: 700; font-size: 13px; min-height: 44px; border-radius: 10px; cursor: pointer; }
 .wc[aria-pressed="true"] { background: var(--snow); color: var(--navy-ink); }
 .wc.best { box-shadow: inset 0 0 0 2px var(--gold); }
+.src-act { flex-direction: column; }
+.src-act .btn-p, .src-act .btn-s { flex: none; width: 100%; }
+.stat.desp-tile { grid-column: 1 / -1; cursor: pointer; }
+.dinp { flex: none; width: 120px; min-height: 48px; font: inherit; font-size: 16px; text-align: right; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); padding: 0 10px; }
+.quick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quick .perf-btn { padding: 0 12px; gap: 8px; }
+.badge { min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: var(--gold); color: #241A00; font-size: 13px; font-weight: 900; display: grid; place-items: center; }
+.seg.s3 { grid-template-columns: repeat(3, 1fr); }
+.cnt { display: inline-block; margin-left: 4px; min-width: 20px; padding: 0 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-size: 12px; }
+.seg [aria-pressed="true"] .cnt { background: rgba(10, 18, 48, 0.15); }
+.rt-list { display: flex; flex-direction: column; gap: 12px; }
+.rcard { display: grid; grid-template-columns: 40px minmax(0, 1fr) 48px; gap: 10px 12px; background: var(--bg-2); border: 1.5px solid transparent; border-radius: 18px; padding: 14px; }
+.rcard.next { background: var(--surface); border-color: var(--gold); }
+.rcard.simple { grid-template-columns: 40px minmax(0, 1fr); }
+.rnum { width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 900; font-size: 18px; display: grid; place-items: center; }
+.rcard.next .rnum { background: var(--gold); color: #241A00; }
+.rnum.ok { background: #178A4B; }
+.rnum.no { background: #6B7399; }
+.rbody { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rbody b { font-size: 16px; overflow-wrap: anywhere; }
+.rto { overflow-wrap: anywhere; }
+.rmeta { font-size: 13px; color: var(--muted); }
+.rtag { align-self: flex-start; background: var(--gold); color: #241A00; font-size: 11px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 2px 8px; margin-bottom: 4px; }
+.rmove { display: flex; flex-direction: column; gap: 6px; }
+.rmv { appearance: none; border: 0; background: var(--bg); color: var(--ink); border-radius: 12px; min-height: 44px; font-size: 16px; cursor: pointer; }
+.rmv[disabled] { opacity: 0.3; cursor: default; }
+.ract { grid-column: 1 / -1; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 8px; }
+.ract.two { grid-template-columns: 1fr 1fr; }
+.rb { appearance: none; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 14px; min-height: 48px; font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+.rb.ok { background: #178A4B; border-color: #178A4B; color: #fff; }
+.rmsg { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg-2); border-radius: 14px; padding: 6px 6px 6px 14px; font-weight: 600; }
+.lnk { appearance: none; background: none; border: 0; color: var(--gold); font: inherit; font-weight: 800; text-decoration: underline; min-height: 44px; padding: 0 10px; cursor: pointer; }
+.rcard.moved { animation: rflash 1s ease-out; }
+@keyframes rflash { from { box-shadow: 0 0 0 3px var(--gold); } to { box-shadow: 0 0 0 0 transparent; } }
 </style>
 </head>
 <body>
@@ -226,7 +260,10 @@ button.fecha::after { content: " \25BE"; }
     <button type="button" class="fecha" id="hoy" data-act="cal" aria-label="Abrir calendario"></button>
   </header>
 
-  <button type="button" class="perf-btn" data-act="perf"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg><span>Rendimiento del mes</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+  <div class="quick">
+    <button type="button" class="perf-btn" data-act="ruta"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg><span>Mi ruta</span><b class="badge" id="ruta-badge" hidden>0</b></button>
+    <button type="button" class="perf-btn" data-act="perf"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg><span>Rendimiento</span></button>
+  </div>
 
   <div class="aviso" id="aviso" role="alert" hidden></div>
 
@@ -283,13 +320,59 @@ button.fecha::after { content: " \25BE"; }
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
       Nuevo domicilio
     </button>
-    <button type="button" class="btn-g btn-cam" data-act="scan-cam" aria-label="Escanear factura"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+    <button type="button" class="btn-g btn-cam" data-act="scan-menu" aria-label="Escanear factura"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
     <button type="button" class="btn-g" data-act="new-gasto">Gasto</button>
   </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="lugares"></datalist>
+
+<dialog id="ruta" aria-label="Mi ruta">
+  <div class="dlg">
+    <div class="dlg-head"><h2>Mi ruta</h2><button type="button" class="x" data-act="rutaclose" aria-label="Cerrar">&times;</button></div>
+    <div class="dlg-actions"><button type="button" class="btn-s" data-act="rtscan">Escanear factura</button><button type="button" class="btn-p" data-act="rtnew">+ Agregar pedido</button></div>
+    <div class="seg s3" role="group" aria-label="Estado">
+      <button type="button" data-act="rtab" data-v="pendiente" aria-pressed="true">Pendientes<span class="cnt" id="rc-p">0</span></button>
+      <button type="button" data-act="rtab" data-v="entregado" aria-pressed="false">Entregados<span class="cnt" id="rc-e">0</span></button>
+      <button type="button" data-act="rtab" data-v="cancelado" aria-pressed="false">Cancelados<span class="cnt" id="rc-c">0</span></button>
+    </div>
+    <div class="rmsg" id="rt-msg" role="status" hidden></div>
+    <div class="rt-list" id="rt-list"></div>
+  </div>
+</dialog>
+
+<dialog id="despd" aria-label="Despacho">
+  <div class="dlg">
+    <div class="dlg-head"><h2>Despacho</h2><button type="button" class="x" data-act="despclose" aria-label="Cerrar">&times;</button></div>
+    <p class="hint" id="d-rule"></p>
+    <div class="tipo" role="group" aria-label="Despacho automático">
+      <button type="button" data-act="desptoggle" data-v="1" aria-pressed="true">Calcular</button>
+      <button type="button" data-act="desptoggle" data-v="0" aria-pressed="false">No usar</button>
+    </div>
+    <div class="two" id="d-cfg">
+      <div class="field"><label for="d-rate">Valor por domicilio</label><input id="d-rate" type="text" inputmode="numeric" autocomplete="off" placeholder="$0"></div>
+      <div class="field"><label for="d-max">Cobra hasta (domicilios)</label><input id="d-max" type="text" inputmode="numeric" autocomplete="off" placeholder="7"></div>
+    </div>
+    <div class="grp" id="d-days">
+      <h3 class="pf-h" id="d-title"></h3>
+      <p class="hint">Cambia el valor de un día si la empresa te cobró otra cosa. Si lo dejas vacío vuelve al automático.</p>
+      <ul class="routes" id="d-list"></ul>
+      <p class="hint pf-best" id="d-total"></p>
+    </div>
+    <div class="dlg-actions"><button type="button" class="btn-s" data-act="despreset">Todo automático</button><button type="button" class="btn-p" data-act="despclose">Listo</button></div>
+  </div>
+</dialog>
+
+<dialog id="src" aria-label="Escanear factura">
+  <div class="dlg">
+    <div class="dlg-head"><h2>Escanear factura</h2><button type="button" class="x" data-act="srcclose" aria-label="Cerrar">&times;</button></div>
+    <div class="dlg-actions src-act">
+      <button type="button" class="btn-p" data-act="scan-cam">Tomar foto</button>
+      <button type="button" class="btn-s" data-act="scan-pic">Elegir de la galería</button>
+    </div>
+  </div>
+</dialog>
 
 <dialog id="perf" aria-label="Rendimiento">
   <div class="dlg">
@@ -375,6 +458,14 @@ button.fecha::after { content: " \25BE"; }
         <button type="button" class="btn-s" data-act="scan-cam">Escanear factura</button>
         <button type="button" class="btn-s" data-act="scan-pic">Galería</button>
         <p class="hint" id="scan-note" role="status" aria-live="polite" hidden></p>
+      </div>
+      <div class="field" id="g-estado">
+        <label>Estado del pedido</label>
+        <div class="seg s3" role="group" aria-label="Estado del pedido">
+          <button type="button" data-act="estado" data-v="pendiente" aria-pressed="true">Pendiente</button>
+          <button type="button" data-act="estado" data-v="entregado" aria-pressed="false">Entregado</button>
+          <button type="button" data-act="estado" data-v="cancelado" aria-pressed="false">Cancelado</button>
+        </div>
       </div>
       <div class="field">
         <label for="f-origen">Lugar de partida</label>
@@ -579,7 +670,181 @@ button.fecha::after { content: " \25BE"; }
     var r = range(state.period);
     return items.filter(function (x) { return x.ts >= r[0] && x.ts < r[1]; }).sort(function (a, b) { return b.ts - a.ts; });
   }
-  function summarize(list) {
+  // ---------- mi ruta: pedidos pendientes, en el orden en que los vas a entregar ----------
+  var RKEY = 'rapigo-ruta-v1', ruta = [], rt = { tab: 'pendiente' }, undoFn = null, undoTimer = 0;
+  function rsane(x) {
+    if (!x || typeof x !== 'object') return null;
+    var ts = Number(x.ts); if (!isFinite(ts)) ts = Date.now();
+    return { id: String(x.id || uid()), origen: clean(x.origen), destino: clean(x.destino),
+      valor: Math.max(0, Number(x.valor) || 0), propina: Math.max(0, Number(x.propina) || 0),
+      pago: x.pago === 'transferencia' ? 'transferencia' : 'efectivo', km: Math.max(0, Number(x.km) || 0),
+      nota: clean(x.nota), ts: ts, estado: x.estado === 'cancelado' ? 'cancelado' : 'pendiente', cts: Number(x.cts) || 0 };
+  }
+  try { var rr = JSON.parse(localStorage.getItem(RKEY) || '[]'); if (Array.isArray(rr)) ruta = rr.map(rsane).filter(Boolean); } catch (e) {}
+  function saveRuta() { try { localStorage.setItem(RKEY, JSON.stringify(ruta)); } catch (e) {} }
+  function rget(id) { return ruta.filter(function (x) { return x.id === id; })[0]; }
+  function drawEstado() {
+    document.querySelectorAll('[data-act="estado"]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-v') === state.estado ? 'true' : 'false');
+    });
+  }
+  function renderRutaBadge() {
+    var n = ruta.filter(function (x) { return x.estado === 'pendiente'; }).length, b = $('ruta-badge');
+    b.hidden = !n; b.textContent = n;
+  }
+  function rmsg(t, fn) {
+    undoFn = fn || null;
+    $('rt-msg').innerHTML = '<span>' + esc(t) + '</span>' + (fn ? '<button type="button" class="lnk" data-act="rtundo">Deshacer</button>' : '');
+    $('rt-msg').hidden = false;
+    clearTimeout(undoTimer);
+    undoTimer = setTimeout(function () { $('rt-msg').hidden = true; undoFn = null; }, 7000);
+  }
+  function say(t) { if ($('ruta').open) rmsg(t); else toast(t); }
+  function rcard(r, k, n) {
+    var id = esc(r.id);
+    return '<article class="rcard' + (k === 0 ? ' next' : '') + '" data-rid="' + id + '"><div class="rnum">' + (k + 1) + '</div>' +
+      '<div class="rbody">' + (k === 0 ? '<span class="rtag">Siguiente</span>' : '') + '<b>' + esc(r.origen) + '</b><span class="rto">&rarr; ' + esc(r.destino) + '</span>' +
+      '<span class="rmeta">' + fmt(r.valor + r.propina) + ' · ' + (r.pago === 'transferencia' ? 'Transferencia' : 'Efectivo') + (r.km ? ' · ' + String(r.km).replace('.', ',') + ' km' : '') + '</span>' +
+      (r.nota ? '<span class="rmeta">' + esc(r.nota) + '</span>' : '') + '</div>' +
+      '<div class="rmove"><button type="button" class="rmv" data-act="rtup" data-id="' + id + '" aria-label="Subir"' + (k === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+      '<button type="button" class="rmv" data-act="rtdown" data-id="' + id + '" aria-label="Bajar"' + (k === n - 1 ? ' disabled' : '') + '>&#9660;</button></div>' +
+      '<div class="ract"><button type="button" class="rb ok" data-act="rtdone" data-id="' + id + '">Entregado</button>' +
+      '<button type="button" class="rb" data-act="rtcancel" data-id="' + id + '">Cancelar</button>' +
+      '<button type="button" class="rb" data-act="rtedit" data-id="' + id + '">Editar</button></div></article>';
+  }
+  function drawRuta(flash) {
+    var pend = ruta.filter(function (x) { return x.estado === 'pendiente'; });
+    var canc = ruta.filter(function (x) { return x.estado === 'cancelado'; }).sort(function (a, b) { return b.cts - a.cts; }).slice(0, 50);
+    var tk = today(), h = '';
+    var done = items.filter(function (x) { return x.type === 'dom' && dayKey(x.ts) === tk; }).sort(function (a, b) { return b.ts - a.ts; });
+    $('rc-p').textContent = pend.length; $('rc-e').textContent = done.length; $('rc-c').textContent = canc.length;
+    document.querySelectorAll('[data-act="rtab"]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-v') === rt.tab ? 'true' : 'false');
+    });
+    if (rt.tab === 'pendiente') {
+      h = pend.length ? pend.map(function (r, k) { return rcard(r, k, pend.length); }).join('')
+        : '<div class="empty"><b>No tienes pedidos pendientes</b>Agrega uno con el botón de arriba o escanea la factura.</div>';
+    } else if (rt.tab === 'entregado') {
+      h = done.length ? '<p class="hint">' + plural(done.length, 'entrega', 'entregas') + ' hoy · ' + fmt(summarize(done, true).ing) + '</p>' + done.map(function (x) {
+        return '<article class="rcard simple"><div class="rnum ok">&#10003;</div><div class="rbody"><b>' + esc(x.origen) + '</b><span class="rto">&rarr; ' + esc(x.destino) + '</span><span class="rmeta">' + timeStr(x.ts) + ' · ' + fmt(x.valor + x.propina) + '</span></div></article>';
+      }).join('') : '<div class="empty"><b>Aún no has entregado nada hoy</b>Cuando toques "Entregado" en un pedido, aparece aquí.</div>';
+    } else {
+      h = canc.length ? canc.map(function (r) {
+        var id = esc(r.id);
+        return '<article class="rcard simple"><div class="rnum no">&#10005;</div><div class="rbody"><b>' + esc(r.origen) + '</b><span class="rto">&rarr; ' + esc(r.destino) + '</span><span class="rmeta">' +
+          (dayKey(r.cts) === tk ? 'Hoy' : esc(dayTitle(r.cts))) + ' · ' + fmt(r.valor + r.propina) + '</span></div>' +
+          '<div class="ract two"><button type="button" class="rb" data-act="rtreact" data-id="' + id + '">Volver a pendiente</button><button type="button" class="rb" data-act="rtdel" data-id="' + id + '">Quitar</button></div></article>';
+      }).join('') : '<div class="empty"><b>Sin cancelados</b>Los pedidos que canceles se guardan aquí.</div>';
+    }
+    $('rt-list').innerHTML = h;
+    if (flash) {
+      var el = $('rt-list').querySelector('[data-rid="' + flash + '"]');
+      if (el) { el.classList.add('moved'); el.scrollIntoView({ block: 'nearest' }); }
+    }
+  }
+  function openRuta() { rt.tab = 'pendiente'; $('rt-msg').hidden = true; drawRuta(); if (!$('ruta').open) $('ruta').showModal(); }
+  function rtMove(id, d) {
+    var idx = [], p = -1;
+    ruta.forEach(function (x, k) { if (x.estado === 'pendiente') idx.push(k); });
+    idx.forEach(function (k, j) { if (ruta[k].id === id) p = j; });
+    var q = p + d; if (p < 0 || q < 0 || q >= idx.length) return;
+    var a = idx[p], b = idx[q], t = ruta[a]; ruta[a] = ruta[b]; ruta[b] = t;
+    saveRuta(); drawRuta(id);
+  }
+  function rtDone(id) {
+    var pos = -1; ruta.forEach(function (x, k) { if (x.id === id) pos = k; });
+    if (pos < 0) return;
+    var r = ruta[pos], it = { id: uid(), type: 'dom', ts: Date.now(), origen: r.origen, destino: r.destino, valor: r.valor, propina: r.propina, pago: r.pago, km: r.km, nota: r.nota };
+    ruta.splice(pos, 1); items.push(it); saveRuta(); save(); render();
+    rmsg('Entregado: ' + r.destino + ' · ' + fmt(r.valor + r.propina), function () {
+      items = items.filter(function (x) { return x.id !== it.id; });
+      ruta.splice(Math.min(pos, ruta.length), 0, r); saveRuta(); save(); render();
+    });
+  }
+  function rtCancel(id) {
+    var r = rget(id); if (!r) return;
+    r.estado = 'cancelado'; r.cts = Date.now(); saveRuta(); render();
+    rmsg('Cancelado: ' + r.destino, function () { r.estado = 'pendiente'; r.cts = 0; saveRuta(); render(); });
+  }
+  function rtReact(id) {
+    var r = rget(id); if (!r) return;
+    ruta = ruta.filter(function (x) { return x.id !== id; });
+    r.estado = 'pendiente'; r.cts = 0; ruta.push(r); saveRuta(); rt.tab = 'pendiente'; render(); drawRuta(id);
+  }
+  function rtDel(id) {
+    var pos = -1; ruta.forEach(function (x, k) { if (x.id === id) pos = k; });
+    if (pos < 0) return;
+    var r = ruta.splice(pos, 1)[0]; saveRuta(); render();
+    rmsg('Quitado de cancelados', function () { ruta.splice(Math.min(pos, ruta.length), 0, r); saveRuta(); render(); });
+  }
+  function rtEdit(id) {
+    var r = rget(id); if (!r) return;
+    openForm('dom', { type: 'dom', id: r.id, ts: r.ts, origen: r.origen, destino: r.destino, valor: r.valor, propina: r.propina, pago: r.pago, km: r.km, nota: r.nota });
+    state.editId = null; state.editRuta = r.id; state.estado = r.estado; $('g-estado').hidden = false; drawEstado();
+  }
+
+  // ---------- despacho: lo que se le paga a la empresa (por día, según los domicilios) ----------
+  var DKEY = 'rapigo-despacho-v1';
+  var desp = { on: true, rate: 1000, max: 7, over: {} };
+  try {
+    var dr = JSON.parse(localStorage.getItem(DKEY) || 'null');
+    if (dr && typeof dr === 'object') {
+      desp.on = dr.on !== false;
+      if (+dr.rate >= 0) desp.rate = Math.floor(+dr.rate);
+      if (+dr.max >= 0) desp.max = Math.floor(+dr.max);
+      if (dr.over && typeof dr.over === 'object') desp.over = dr.over;
+    }
+  } catch (e) {}
+  function saveDesp() { try { localStorage.setItem(DKEY, JSON.stringify(desp)); } catch (e) {} }
+  function hasOver(k) { return Object.prototype.hasOwnProperty.call(desp.over, k); }
+  function despDay(k, n) {
+    if (!desp.on) return 0;
+    if (hasOver(k)) return +desp.over[k] || 0;
+    return Math.min(n, desp.max) * desp.rate;
+  }
+  function drawDesp() {
+    $('d-rate').value = moneyIn(desp.rate);
+    $('d-max').value = desp.max ? String(desp.max) : '';
+    document.querySelectorAll('[data-act="desptoggle"]').forEach(function (b) {
+      b.setAttribute('aria-pressed', (b.getAttribute('data-v') === '1') === desp.on ? 'true' : 'false');
+    });
+    $('d-cfg').hidden = !desp.on; $('d-days').hidden = !desp.on;
+    $('d-rule').textContent = desp.on
+      ? 'Cada domicilio del día suma ' + fmt(desp.rate) + ', hasta ' + plural(desp.max, 'domicilio', 'domicilios') + '. Del ' + (desp.max + 1) + '.º en adelante no se cobra más (máximo ' + fmt(desp.max * desp.rate) + ' por día).'
+      : 'El despacho está apagado: no se descuenta de tu ganancia.';
+    var c = {}, ts = {};
+    visible().forEach(function (x) { if (x.type !== 'dom') return; var k = dayKey(x.ts); c[k] = (c[k] || 0) + 1; ts[k] = x.ts; });
+    var keys = Object.keys(c).sort().reverse();
+    $('d-title').textContent = periodLabel();
+    $('d-list').innerHTML = keys.length ? keys.map(function (k) {
+      var auto = Math.min(c[k], desp.max) * desp.rate, cur = despDay(k, c[k]), t = esc(dayTitle(ts[k]));
+      return '<li><span class="r"><b>' + t + '</b><br>' + plural(c[k], 'domicilio', 'domicilios') + (hasOver(k) ? ' · editado (automático ' + fmt(auto) + ')' : ' · automático') +
+        '</span><input class="dinp" type="text" inputmode="numeric" autocomplete="off" data-k="' + k + '" aria-label="Despacho del ' + t + '" value="' + (cur ? moneyIn(cur) : '0') + '" placeholder="$0"></li>';
+    }).join('') : '<li><span class="r">No hay domicilios en este periodo.</span></li>';
+    $('d-total').textContent = 'Total del periodo: ' + fmt(summarize(visible()).desp);
+  }
+  function openDesp() { drawDesp(); if (!$('despd').open) $('despd').showModal(); }
+  function despReset() {
+    visible().forEach(function (x) { if (x.type === 'dom') delete desp.over[dayKey(x.ts)]; });
+    saveDesp(); drawDesp(); render();
+  }
+  $('d-rate').addEventListener('input', function () { this.value = moneyIn(this.value); });
+  $('d-rate').addEventListener('change', function () { desp.rate = num(this.value); saveDesp(); drawDesp(); render(); });
+  $('d-max').addEventListener('input', function () { this.value = String(num(this.value) || ''); });
+  $('d-max').addEventListener('change', function () { desp.max = Math.min(99, num(this.value)); saveDesp(); drawDesp(); render(); });
+  $('d-list').addEventListener('input', function (e) {
+    var i = e.target; if (!i.classList || !i.classList.contains('dinp')) return;
+    var d = i.value.replace(/\D/g, ''); i.value = d === '' ? '' : (moneyIn(d) || '0');
+  });
+  $('d-list').addEventListener('change', function (e) {
+    var i = e.target, k = i.getAttribute && i.getAttribute('data-k'); if (!k) return;
+    var raw = i.value.replace(/\D/g, ''), n = num(raw), cnt = 0;
+    items.forEach(function (x) { if (x.type === 'dom' && dayKey(x.ts) === k) cnt++; });
+    if (raw === '' || n === Math.min(cnt, desp.max) * desp.rate) delete desp.over[k]; else desp.over[k] = n;
+    saveDesp(); drawDesp(); render();
+  });
+
+  function summarize(list, raw) {
     var s = { n: 0, valor: 0, prop: 0, ing: 0, gas: 0, efe: 0, tra: 0, km: 0 };
     list.forEach(function (x) {
       if (x.type === 'dom') {
@@ -588,7 +853,13 @@ button.fecha::after { content: " \25BE"; }
         if (x.pago === 'transferencia') s.tra += t; else s.efe += t;
       } else { s.gas += x.valor; }
     });
-    s.neto = s.ing - s.gas;
+    s.desp = 0;
+    if (!raw && desp.on) {
+      var cd = {};
+      list.forEach(function (x) { if (x.type === 'dom') { var k = dayKey(x.ts); cd[k] = (cd[k] || 0) + 1; } });
+      Object.keys(cd).forEach(function (k) { s.desp += despDay(k, cd[k]); });
+    }
+    s.neto = s.ing - s.gas - s.desp;
     s.prom = s.n ? s.ing / s.n : 0;
     return s;
   }
@@ -612,8 +883,10 @@ button.fecha::after { content: " \25BE"; }
     ];
     $('stats').innerHTML = tiles.map(function (t) {
       return '<div class="stat"><dt>' + t[0] + '</dt><dd>' + t[1] + '</dd></div>';
-    }).join('');
+    }).join('') + '<div class="stat desp-tile" data-act="desp" role="button" tabindex="0"><dt>Despacho para la empresa</dt><dd>' + (desp.on ? fmt(s.desp) : 'Apagado') + ' <span aria-hidden="true">&rsaquo;</span></dd></div>';
     $('volver').hidden = !state.anchor;
+    renderRutaBadge();
+    if ($('ruta').open) drawRuta();
     renderRoutes(list);
     renderTop(list);
     renderLog(list);
@@ -732,6 +1005,7 @@ button.fecha::after { content: " \25BE"; }
     state.editId = item && !asCopy ? item.id : null;
     $('err').textContent = '';
     note('');
+    state.editRuta = null; state.estado = 'pendiente'; $('g-estado').hidden = !!state.editId; drawEstado();
     $('tipo').hidden = !!state.editId;
     $('f-origen').value = item && item.type === 'dom' ? item.origen : '';
     $('f-destino').value = item && item.type === 'dom' ? item.destino : '';
@@ -767,6 +1041,16 @@ button.fecha::after { content: " \25BE"; }
       if (!v) return fail('Escribe el valor del gasto.');
       obj = { type: 'gasto', ts: ts, categoria: $('f-cat').value, valor: v, nota: clean($('f-gnota').value) };
     }
+    if (obj.type === 'dom' && !state.editId && state.estado !== 'entregado') {
+      var rn = { id: state.editRuta || uid(), origen: obj.origen, destino: obj.destino, valor: obj.valor, propina: obj.propina, pago: obj.pago, km: obj.km, nota: obj.nota, ts: obj.ts, estado: state.estado, cts: state.estado === 'cancelado' ? Date.now() : 0 };
+      var pos = -1; ruta.forEach(function (x, k) { if (x.id === rn.id) pos = k; });
+      if (pos >= 0) ruta[pos] = rn; else ruta.push(rn);
+      state.editRuta = null; state.open = null; state.del = null;
+      saveRuta(); closeForm(); render();
+      say(pos >= 0 ? 'Pedido actualizado' : rn.estado === 'pendiente' ? 'Agregado a tu ruta' : 'Guardado como cancelado');
+      return;
+    }
+    if (state.editRuta) { ruta = ruta.filter(function (x) { return x.id !== state.editRuta; }); saveRuta(); state.editRuta = null; }
     if (state.editId) {
       obj.id = state.editId;
       items = items.map(function (x) { return x.id === state.editId ? obj : x; });
@@ -815,6 +1099,7 @@ button.fecha::after { content: " \25BE"; }
       'Domicilios: ' + s.n + '\n' +
       'Ingresos: ' + fmt(s.ing) + ' (domicilios ' + fmt(s.valor) + ' + propinas ' + fmt(s.prop) + ')\n' +
       'Gastos: ' + fmt(s.gas) + '\n' +
+      (desp.on ? 'Despacho (empresa): ' + fmt(s.desp) + '\n' : '') +
       'Ganancia neta: ' + fmt(s.neto) + '\n' +
       'Cobrado en efectivo: ' + fmt(s.efe) + ' · por transferencia: ' + fmt(s.tra);
     function fallback() {
@@ -831,8 +1116,8 @@ button.fecha::after { content: " \25BE"; }
     } else fallback();
   }
   function backup() {
-    if (!items.length) return toast('Todavía no hay nada que guardar.');
-    download('rapigo-copia-' + today() + '.json', JSON.stringify({ app: 'rapigo', v: 1, exportado: new Date().toISOString(), items: items }, null, 1), 'application/json');
+    if (!items.length && !ruta.length) return toast('Todavía no hay nada que guardar.');
+    download('rapigo-copia-' + today() + '.json', JSON.stringify({ app: 'rapigo', v: 1, exportado: new Date().toISOString(), items: items, ruta: ruta, desp: desp }, null, 1), 'application/json');
   }
   function restore(file) {
     if (!file) return;
@@ -846,6 +1131,20 @@ button.fecha::after { content: " \25BE"; }
         items.forEach(function (x) { have[x.id] = true; });
         var added = 0;
         arr.map(sane).filter(Boolean).forEach(function (x) { if (!have[x.id]) { items.push(x); have[x.id] = true; added++; } });
+        if (data && data.desp && typeof data.desp === 'object') {
+          var bd = data.desp;
+          desp.on = bd.on !== false;
+          if (+bd.rate >= 0) desp.rate = Math.floor(+bd.rate);
+          if (+bd.max >= 0) desp.max = Math.floor(+bd.max);
+          if (bd.over && typeof bd.over === 'object') Object.keys(bd.over).forEach(function (k) { if (!hasOver(k) && +bd.over[k] >= 0) desp.over[k] = Math.floor(+bd.over[k]); });
+          saveDesp();
+        }
+        if (data && Array.isArray(data.ruta)) {
+          var hr = {};
+          ruta.forEach(function (x) { hr[x.id] = true; });
+          data.ruta.map(rsane).filter(Boolean).forEach(function (x) { if (!hr[x.id]) { ruta.push(x); hr[x.id] = true; added++; } });
+          saveRuta();
+        }
         save(); render();
         toast(added ? 'Se agregaron ' + plural(added, 'registro', 'registros') : 'Esa copia no trae registros nuevos.');
       } catch (e) { toast('Ese archivo no es una copia de Rapigo.'); }
@@ -892,8 +1191,28 @@ button.fecha::after { content: " \25BE"; }
     else if (a === 'calday') goTo('hoy', new Date(cv.y, cv.m, +t.getAttribute('data-d'), 12).getTime());
     else if (a === 'calmes') goTo('mes', new Date(cv.y, cv.m, 1, 12).getTime());
     else if (a === 'calhoy') goTo('hoy', null);
-    else if (a === 'scan-cam') $('scan-cam').click();
-    else if (a === 'scan-pic') $('scan-pic').click();
+    else if (a === 'ruta') openRuta();
+    else if (a === 'rutaclose') $('ruta').close();
+    else if (a === 'rtab') { rt.tab = t.getAttribute('data-v'); drawRuta(); }
+    else if (a === 'rtup') rtMove(id, -1);
+    else if (a === 'rtdown') rtMove(id, 1);
+    else if (a === 'rtdone') rtDone(id);
+    else if (a === 'rtcancel') rtCancel(id);
+    else if (a === 'rtedit') rtEdit(id);
+    else if (a === 'rtreact') rtReact(id);
+    else if (a === 'rtdel') rtDel(id);
+    else if (a === 'rtundo') { if (undoFn) { var uf = undoFn; undoFn = null; $('rt-msg').hidden = true; uf(); } }
+    else if (a === 'rtnew') openForm('dom');
+    else if (a === 'rtscan') $('src').showModal();
+    else if (a === 'estado') { state.estado = t.getAttribute('data-v'); drawEstado(); }
+    else if (a === 'desp') openDesp();
+    else if (a === 'despclose') $('despd').close();
+    else if (a === 'desptoggle') { desp.on = t.getAttribute('data-v') === '1'; saveDesp(); drawDesp(); render(); }
+    else if (a === 'despreset') despReset();
+    else if (a === 'scan-menu') $('src').showModal();
+    else if (a === 'srcclose') $('src').close();
+    else if (a === 'scan-cam') { if ($('src').open) $('src').close(); $('scan-cam').click(); }
+    else if (a === 'scan-pic') { if ($('src').open) $('src').close(); $('scan-pic').click(); }
     else if (a === 'csv') exportCsv();
     else if (a === 'copy') copySummary();
     else if (a === 'backup') backup();
@@ -918,7 +1237,7 @@ button.fecha::after { content: " \25BE"; }
     $('pf-y').innerHTML = h;
   }
   function pcell(l, v) { return '<div><dt>' + l + '</dt><dd>' + v + '</dd></div>'; }
-  function val(list) { var s = summarize(list); return pf.metric === 'n' ? s.n : Math.max(0, s.neto); }
+  function val(list, raw) { var s = summarize(list, raw); return pf.metric === 'n' ? s.n : Math.max(0, s.neto); }
   function short(v) {
     if (pf.metric === 'n') return String(v);
     return '$' + (v >= 1e6 ? (v / 1e6).toFixed(1).replace('.', ',') + 'M' : v >= 1000 ? Math.round(v / 1000) + 'k' : v);
@@ -1019,11 +1338,11 @@ button.fecha::after { content: " \25BE"; }
     if (dm) {
       list.forEach(function (x) { var t = new Date(x.ts).getHours(); (hs[t] = hs[t] || []).push(x); if (t < lo) lo = t; if (t > hi) hi = t; });
       cats = [];
-      for (i = lo; i <= hi; i++) cats.push({ l: (i % 12 || 12) + (i < 12 ? 'a' : 'p'), n: (i % 12 || 12) + (i < 12 ? ' am' : ' pm'), v: val(hs[i] || []), s: hi - lo < 12 || (i - lo) % 2 === 0 });
+      for (i = lo; i <= hi; i++) cats.push({ l: (i % 12 || 12) + (i < 12 ? 'a' : 'p'), n: (i % 12 || 12) + (i < 12 ? ' am' : ' pm'), v: val(hs[i] || [], true), s: hi - lo < 12 || (i - lo) % 2 === 0 });
       var bh = mark(cats);
       $('pf-tiles').innerHTML = pcell('Domicilios', s.n) + pcell('Ganancia neta', fmt(s.neto)) + pcell('Ingresos', fmt(s.ing)) + pcell('Propinas', fmt(s.prop)) +
         pcell('Gastos', fmt(s.gas)) + pcell('Promedio por domicilio', fmt(s.prom)) + pcell('Efectivo', fmt(s.efe)) + pcell('Transferencia', fmt(s.tra)) +
-        pcell('Kilómetros', kmFmt(s.km)) + pcell('Mejor hora', bh ? bh.n : '—');
+        pcell('Kilómetros', kmFmt(s.km)) + pcell('Despacho', fmt(s.desp)) + pcell('Mejor hora', bh ? bh.n : '—');
       $('pf-best').textContent = bh ? 'Tu mejor hora fue las ' + bh.n + ': ' + (pf.metric === 'n' ? plural(bh.v, 'domicilio', 'domicilios') : fmt(bh.v) + ' de ganancia neta') + '.' : '';
       $('pf-list').innerHTML = list.slice().sort(function (a, b) { return a.ts - b.ts; }).map(function (x) {
         return x.type === 'dom'
@@ -1045,7 +1364,7 @@ button.fecha::after { content: " \25BE"; }
       if (pf.wd === null) pf.wd = bw ? bw.w : WK[0];
       cats.forEach(function (x) { x.sel = x.w === pf.wd; });
       $('pf-tiles').innerHTML = pcell('Domicilios', s.n) + pcell('Ganancia neta', fmt(s.neto)) + pcell('Ingresos', fmt(s.ing)) +
-        pcell('Gastos', fmt(s.gas)) + pcell('Promedio por domicilio', fmt(s.prom)) + pcell('Días trabajados', worked);
+        pcell('Propinas', fmt(s.prop)) + pcell('Gastos', fmt(s.gas)) + pcell('Despacho', fmt(s.desp)) + pcell('Promedio por domicilio', fmt(s.prom)) + pcell('Días trabajados', worked);
       $('pf-best').textContent = bw ? 'Tu mejor día es el ' + DAYS[bw.w] + ': ' + (pf.metric === 'n' ? plural(bw.v, 'domicilio', 'domicilios') : fmt(bw.v) + ' de ganancia neta') +
         '. Mejor fecha del mes: ' + DAYS[new Date(pf.y, pf.m, bd0.l).getDay()] + ' ' + bd0.l + '.' : '';
       var fb = pf.type === 'pie' || pf.type === 'ico';
@@ -1063,7 +1382,7 @@ button.fecha::after { content: " \25BE"; }
       }
       $('pf-sel-t').textContent = 'Todos los ' + DAYS[pf.wd] + (pf.wd % 6 === 0 ? 's' : '') + ' de ' + MONTHS[pf.m] + ' ' + pf.y;
       $('pf-sel').innerHTML = pcell('Domicilios', ss.n) + pcell('Ganancia neta', fmt(ss.neto)) + pcell('Ingresos', fmt(ss.ing)) +
-        pcell('Propinas', fmt(ss.prop)) + pcell('Gastos', fmt(ss.gas)) + pcell('Promedio por domicilio', fmt(ss.prom)) +
+        pcell('Propinas', fmt(ss.prop)) + pcell('Gastos', fmt(ss.gas)) + pcell('Despacho', fmt(ss.desp)) + pcell('Promedio por domicilio', fmt(ss.prom)) +
         pcell('Efectivo', fmt(ss.efe)) + pcell('Transferencia', fmt(ss.tra)) + pcell('Kilómetros', kmFmt(ss.km)) + pcell('Días trabajados', wk + ' de ' + cnt);
       $('pf-sel-b').textContent = bd ? 'Mejor ' + DAYS[pf.wd] + ': ' + bd + ' de ' + MONTHS[pf.m] + ' · ' + plural(bn, 'domicilio', 'domicilios') : '';
     }
